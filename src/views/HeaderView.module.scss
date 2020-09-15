@@ -1,0 +1,18 @@
+@import "@src/global/theme.scss";
+
+.container {
+    width: 100%;
+    padding: 16px;
+    box-sizing: border-box;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    box-shadow: 0px 3px 6px rgba(77, 132, 255, 0.3);
+
+    color: white;
+    background: $blue;
+
+    .title {
+        font-size: 24px;
+        line-height: 30px;
+    }
+}

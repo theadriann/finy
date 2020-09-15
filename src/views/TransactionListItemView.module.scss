@@ -1,0 +1,74 @@
+.container {
+    position: relative;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 16px;
+
+    :not(:last-child) {
+        &:after {
+            position: absolute;
+            content: "";
+            bottom: 0;
+            left: 16px;
+            right: 16px;
+            height: 1px;
+            background: rgb(247, 249, 255);
+        }
+    }
+
+    .titleContainer {
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+
+        .title {
+            font-size: 14px;
+            line-height: 16px;
+            // font-weight: 700;
+
+            color: #000;
+        }
+
+        .category {
+            margin-top: 4px;
+
+            font-size: 12px;
+            line-height: 14px;
+            font-weight: 400;
+
+            color: rgb(188, 188, 188);
+        }
+    }
+
+    .moneyContainer {
+        display: flex;
+        flex-flow: column nowrap;
+        align-items: flex-end;
+
+        :global(.sign-minus) {
+            color: black;
+        }
+
+        :global(.sign-plus) {
+            color: rgb(72, 195, 144);
+        }
+
+        .money {
+            font-size: 14px;
+            line-height: 16px;
+
+            span {
+                margin-right: 4px;
+            }
+        }
+
+        .originalMoney {
+            font-size: 10px;
+            line-height: 14px;
+        }
+    }
+}

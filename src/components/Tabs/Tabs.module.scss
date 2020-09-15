@@ -1,0 +1,29 @@
+@import "@src/global/vars.scss";
+
+.container {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+
+    overflow: auto;
+    overflow-y: hidden;
+    overflow-x: auto;
+
+    &:after {
+        content: "";
+        padding-right: 24px;
+    }
+
+    .tab {
+        flex: 0 0 auto;
+
+        display: block;
+        margin-right: 16px;
+
+        font-weight: 600;
+
+        &:global(.selected) {
+            color: $blue;
+        }
+    }
+}

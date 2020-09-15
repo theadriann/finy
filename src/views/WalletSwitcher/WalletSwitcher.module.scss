@@ -1,0 +1,32 @@
+.container {
+    display: flex;
+    flex-flow: column nowrap;
+
+    margin-top: 8px;
+
+    .switcher {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+
+        .select {
+            color: white;
+            font-size: 16px;
+            line-height: 18px;
+
+            margin: 0;
+            padding: 0;
+            outline: none;
+
+            margin-left: -3px;
+        }
+    }
+
+    .hiddenSelect {
+        display: none;
+    }
+
+    .money {
+        display: flex;
+    }
+}

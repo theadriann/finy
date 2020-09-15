@@ -1,0 +1,19 @@
+@import "@src/global/vars.scss";
+
+.container {
+    position: fixed;
+    bottom: 72px;
+    right: 16px;
+
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+
+    color: white;
+    background: $blue;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+}

@@ -1,0 +1,14 @@
+{
+    "name": "Finy",
+    "short_name": "Finy",
+    "orientation": "any",
+    "display": "standalone",
+    "start_url": "/",
+    "lang": "en",
+    "dir": "ltr",
+    "description": "Manage your budget.",
+    "categories": ["budget", "finance"],
+    "scope": "/",
+    "theme_color": "#4d84ff",
+    "background_color": "#f7f9ff"
+}
