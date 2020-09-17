@@ -65,6 +65,13 @@ class DataStore {
         return transaction;
     }
 
+    async deleteTransaction(transaction: Transaction) {
+        await this.store.wallet.revertTransaction(transaction);
+        await this.transactions.delete(transaction.id);
+
+        this.store.firebase.deleteTransaction(transaction.id);
+    }
+
     createCategory(details: CategoryJSON): Category {
         const category = this.addCategory(details);
         this.saveData();
@@ -114,6 +121,14 @@ class DataStore {
         json.transactions = this.transactions.toJSON();
 
         return this.store.firebase.saveUserData(json);
+    }
+
+    // -----------------------
+    // update data methods
+    // -----------------------
+
+    updateWallet(wallet: Wallet) {
+        return this.store.firebase.updateWallet(wallet.id, wallet.toJSON());
     }
 
     // -----------------------

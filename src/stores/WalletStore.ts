@@ -1,5 +1,6 @@
 // models
 import Wallet from "@src/models/Wallet";
+import Transaction from "@src/models/Transaction";
 
 // utils
 import { RootStore } from "./RootStore";
@@ -87,6 +88,30 @@ export default class WalletStore {
         }
 
         return this.store.data.saveData();
+    }
+
+    async revertTransaction(transaction: Transaction) {
+        const wallet = this.store.data.getWallet(transaction.walletId);
+
+        if (!wallet) {
+            return null;
+        }
+
+        //
+        const money = await resolveMoney(
+            {
+                amount: transaction.amount,
+                currency: transaction.currency,
+                date: transaction.date,
+                flow: transaction.flow,
+            },
+            { currency: wallet.currency }
+        );
+
+        wallet.amount -= money.absoluteAmount;
+        transaction._processed = true;
+
+        return this.store.firebase.updateWallet(wallet.id, wallet.toJSON());
     }
 
     async processAllTransactions() {

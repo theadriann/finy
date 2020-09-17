@@ -6,6 +6,7 @@ import { observer } from "mobx-react";
 
 // views
 // import MenuView from "./Menu/MenuView";
+import ChoiceModal from "@src/views/components/ChoiceModal";
 import AddWalletModal from "@src/views/AddWalletModal";
 
 // styles
@@ -28,6 +29,7 @@ export const withSkeleton = (ChildComponent: React.FC) =>
             <SkeletonView>
                 <ChildComponent {...props} />
                 <AddWalletModal open={store.ui.addWallet.active} />
+                <ChoiceModal open={store.ui.choiceModal.active} />
             </SkeletonView>
         );
     });

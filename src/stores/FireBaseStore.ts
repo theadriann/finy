@@ -139,6 +139,54 @@ export default class FireBaseStore {
     }
 
     // -----------------------
+    // update methods
+    // -----------------------
+
+    updatePayee(key: string, value: any) {
+        this.updateData(`/payees/${key}`, value);
+    }
+
+    updateWallet(key: string, value: any) {
+        this.updateData(`/wallets/${key}`, value);
+    }
+
+    updateCategory(key: string, value: any) {
+        this.updateData(`/categories/${key}`, value);
+    }
+
+    updateTransaction(key: string, value: any) {
+        this.updateData(`/transactions/${key}`, value);
+    }
+
+    async updateData(path: string, value: any) {
+        this.db.ref(`${this.userDbPath}/${path}`).update(value);
+    }
+
+    // -----------------------
+    // delete methods
+    // -----------------------
+
+    deletePayee(key: string) {
+        this.deleteData(`/payees/${key}`);
+    }
+
+    deleteWallet(key: string) {
+        this.deleteData(`/wallets/${key}`);
+    }
+
+    deleteCategory(key: string) {
+        this.deleteData(`/categories/${key}`);
+    }
+
+    deleteTransaction(key: string) {
+        this.deleteData(`/transactions/${key}`);
+    }
+
+    async deleteData(path: string) {
+        this.db.ref(`${this.userDbPath}/${path}`).remove();
+    }
+
+    // -----------------------
     // computed states
     // -----------------------
 
@@ -149,6 +197,10 @@ export default class FireBaseStore {
     // -----------------------
     // computed data
     // -----------------------
+
+    get userDbPath() {
+        return `/users/${this.userData.uid}`;
+    }
 
     get userDbRef() {
         return this.db.ref(`/users/${this.userData.uid}`);

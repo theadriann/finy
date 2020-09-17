@@ -4,6 +4,7 @@ import SAI from "safe-area-insets";
 import { action, computed, makeObservable, observable } from "mobx";
 
 import AddWalletStore from "./ui/AddWalletStore";
+import ChoiceModalStore from "./ui/ChoiceModalStore";
 
 interface Navigator {
     standalone?: boolean;
@@ -15,6 +16,7 @@ export default class UIStore {
     store: RootStore;
 
     addWallet: AddWalletStore;
+    choiceModal: ChoiceModalStore;
 
     saiListener: any = undefined;
     supportsSAI: boolean = false;
@@ -23,6 +25,7 @@ export default class UIStore {
         this.store = store;
 
         this.addWallet = new AddWalletStore(this.store);
+        this.choiceModal = new ChoiceModalStore(this.store);
 
         const config: any = {
             saiListener: observable,

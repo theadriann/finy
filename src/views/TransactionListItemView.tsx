@@ -31,7 +31,7 @@ const TransactionListItemView: React.FC<{
     // get data
     // -----------------------
 
-    const dataStore = useRootStore().data;
+    const { data: dataStore, ui } = useRootStore();
     const payee = dataStore.getPayee(transaction.payeeId);
     const wallet = dataStore.getWallet(transaction.walletId);
     const category = dataStore.getCategory(transaction.categoryId);
@@ -77,7 +77,21 @@ const TransactionListItemView: React.FC<{
                     label: "Delete",
                     position: "right",
                     className: "red",
-                    onAction: () => console.log("will delete"),
+                    onAction: () =>
+                        ui.choiceModal
+                            .open({
+                                title: "Delete Transaction?",
+                                description:
+                                    "Are you sure you want to delete this transaction?",
+                                buttons: [
+                                    { label: "Delete", value: "delete" },
+                                    { label: "Cancel", value: "cancel" },
+                                ],
+                            })
+                            .then((value) => {
+                                value === "delete" &&
+                                    dataStore.deleteTransaction(transaction);
+                            }),
                 },
             ]}
             className={styles.container}
