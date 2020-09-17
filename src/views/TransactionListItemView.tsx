@@ -104,6 +104,7 @@ const TransactionListItemView: React.FC<{
                     </div>
                     <div className={styles.moneyContainer}>
                         <MoneyViewer
+                            date={transaction.unixDate}
                             flow={transaction.flow}
                             amount={transaction.amount}
                             currency={transaction.currency}

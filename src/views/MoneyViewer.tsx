@@ -1,17 +1,23 @@
+// utils
 import React, { useEffect, useState } from "react";
+import dayjs from "@src/utils/dayjs";
 import classnames from "classnames";
 import { FormattedMoney, resolveMoney } from "@src/utils/formatMoney";
 
 type MoneyViewerProps = {
+    date?: dayjs.Dayjs | number | string;
     flow?: "in" | "out";
     amount: number;
     currency: Currency;
     newCurrency?: Currency;
+
     showSign?: boolean;
+
     className?: string;
 };
 
 const MoneyViewer: React.FC<MoneyViewerProps> = ({
+    date,
     flow,
     amount,
     currency,
@@ -25,7 +31,7 @@ const MoneyViewer: React.FC<MoneyViewerProps> = ({
         const updateMoney = async () =>
             setMoney(
                 await resolveMoney(
-                    { amount, currency, flow },
+                    { amount, currency, flow, date },
                     { currency: newCurrency || currency }
                 )
             );
