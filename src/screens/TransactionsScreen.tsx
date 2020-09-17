@@ -1,14 +1,20 @@
+// utils
 import React from "react";
 import dayjs from "@src/utils/dayjs";
-import styles from "./TransactionsScreen.module.scss";
 import { withSkeleton } from "@src/views/SkeletonView";
 import { useRootStore } from "@src/stores/RootStore";
 import { observer, useLocalStore } from "mobx-react";
-import TransactionListItemView from "@src/views/TransactionListItemView";
-import AddTransactionExperience from "@src/views/AddTransactionExperience";
+
+// components
 import Tabs from "@src/components/Tabs";
 
+// views
 import HeaderView from "@src/views/HeaderView";
+import CategoriesListView from "@src/views/CategoriesListView";
+import TransactionListItemView from "@src/views/TransactionListItemView";
+import AddTransactionExperience from "@src/views/AddTransactionExperience";
+
+import styles from "./TransactionsScreen.module.scss";
 
 interface TransactionsScreenProps extends GenericComponentProps {}
 
@@ -27,7 +33,7 @@ const TransactionsScreen: React.FC = observer((props) => {
     const renderList = () => {
         switch (localStore.tabsValue) {
             case "categories":
-                return <div>categories</div>;
+                return <CategoriesListView />;
 
             default:
                 return <TransactionsList />;

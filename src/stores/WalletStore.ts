@@ -69,7 +69,7 @@ export default class WalletStore {
         const transactionsStore = this.store.transactions;
         const transactions = transactionsStore
             .getByWalletId(wallet.id)
-            .filter(transactionsStore.notProcessedFilter);
+            .filter(transactionsStore.filter_notProcessed);
 
         for (let transaction of transactions) {
             //
