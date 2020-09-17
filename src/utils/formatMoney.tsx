@@ -3,7 +3,7 @@ import Transaction from "../models/Transaction";
 
 // utils
 import _ from "lodash";
-import moment from "moment";
+import dayjs from "@src/utils/dayjs";
 import accounting from "accounting";
 import { fetchRatesAt } from "./getRates";
 
@@ -35,9 +35,9 @@ export const convertMoney = async (
 ) => {
     // set the date
     if (typeof date === "number") {
-        date = moment.unix(date).format("YYYY-MM-DD");
+        date = dayjs.unix(date).format("YYYY-MM-DD");
     } else {
-        date = moment(date || undefined).format("YYYY-MM-DD");
+        date = dayjs(date || undefined).format("YYYY-MM-DD");
     }
 
     to = _.upperCase(to);
@@ -90,7 +90,7 @@ export const resolveMoney = async (
     //
     config = _.defaults(config, {
         flow: "out",
-        date: moment().unix(),
+        date: dayjs().unix(),
     });
 
     const amount = config.amount;

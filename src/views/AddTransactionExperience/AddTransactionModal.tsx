@@ -1,6 +1,6 @@
 // utils
 import React from "react";
-import moment from "moment";
+import dayjs from "@src/utils/dayjs";
 import classnames from "classnames";
 import rootStore from "@src/stores/RootStore";
 import { observer } from "mobx-react";
@@ -47,7 +47,7 @@ export default class AddTransactionModal extends Modal<IAddTransactionModal> {
         category: null,
         amount: 0,
         currency: "RON",
-        date: moment(),
+        date: dayjs(),
         outflow: true,
     };
 
@@ -80,7 +80,7 @@ export default class AddTransactionModal extends Modal<IAddTransactionModal> {
             category: null,
             amount: 0,
             currency: "RON",
-            date: moment(),
+            date: dayjs(),
             outflow: true,
         };
     }
@@ -156,7 +156,7 @@ export default class AddTransactionModal extends Modal<IAddTransactionModal> {
         const { onSubmit } = this.props;
 
         rootStore.data.addTransaction({
-            date: moment(data.date).unix(),
+            date: dayjs(data.date).unix(),
             flow: data.outflow ? "out" : "in",
             amount: data.amount,
             currency: data.currency as Currency,

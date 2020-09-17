@@ -1,10 +1,10 @@
 import fetch from "node-fetch";
-import moment from "moment";
+import dayjs from "@src/utils/dayjs";
 
 let ratesCache: any = {};
 
 export const fetchLatestRates = async () => {
-    const todayDate = moment().format("YYYY-MM-DD");
+    const todayDate = dayjs().format("YYYY-MM-DD");
 
     if (ratesCache[todayDate]) {
         return ratesCache[todayDate];

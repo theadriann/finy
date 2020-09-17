@@ -1,4 +1,4 @@
-import moment from "moment";
+import dayjs from "@src/utils/dayjs";
 import BaseObject from "./BaseObject";
 import { makeObservable, observable } from "mobx";
 
@@ -17,7 +17,7 @@ export type TransactionJSON = {
 export default class Transaction extends BaseObject {
     //
 
-    date: string | number = moment().unix();
+    date: string | number = dayjs().unix();
 
     flow: "in" | "out" = "out";
     amount: number = 0;
@@ -48,22 +48,22 @@ export default class Transaction extends BaseObject {
         this.fromJSON(json);
     }
 
-    get momentDate() {
+    get dayjsDate() {
         if (typeof this.date === "number") {
-            return moment.unix(this.date);
+            return dayjs.unix(this.date);
         }
 
-        return moment(this.date);
+        return dayjs(this.date);
     }
 
     get unixDate() {
-        return this.momentDate.unix();
+        return this.dayjsDate.unix();
     }
 
     fromJSON(json: any) {
         super.fromJSON(json);
 
-        this.date = json.date || moment().unix();
+        this.date = json.date || dayjs().unix();
 
         this.flow = json.flow || "out";
         this.amount = json.amount || 0;

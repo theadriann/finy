@@ -1,5 +1,5 @@
 import React from "react";
-import moment from "moment";
+import dayjs from "@src/utils/dayjs";
 import styles from "./TransactionsScreen.module.scss";
 import { withSkeleton } from "@src/views/SkeletonView";
 import { useRootStore } from "@src/stores/RootStore";
@@ -68,12 +68,12 @@ const TransactionsList: React.FC = observer(() => {
 });
 
 const GroupedTransactions: React.FC<{ group: any }> = observer(({ group }) => {
-    const momentdate = moment(group.date, "YYYY-MM-DD", true);
+    const dayjsdate = dayjs(group.date, "YYYY-MM-DD").locale("en");
 
     return (
         <>
             <div className={styles.groupTitle}>
-                {moment(momentdate).calendar()}
+                {dayjsdate.calendar(undefined)}
             </div>
             <div className={styles.groupContent}>
                 {group.transactions.map((t: any) => (

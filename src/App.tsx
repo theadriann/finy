@@ -9,7 +9,7 @@ import "./index.scss";
 
 // utils
 import React from "react";
-import MomentUtils from "@material-ui/pickers/adapter/moment";
+import DayJSUtils from "@material-ui/pickers/adapter/dayjs";
 import { Router } from "react-router";
 import { Switch, Route } from "react-router-dom";
 import { LocalizationProvider } from "@material-ui/pickers";
@@ -44,7 +44,7 @@ class App extends React.Component {
 
         return (
             <MobxProvider store={store}>
-                <LocalizationProvider dateAdapter={MomentUtils}>
+                <LocalizationProvider dateAdapter={DayJSUtils}>
                     <Router history={store.routing.history}>
                         <div className={styles.page}>{this.renderRoutes()}</div>
                         <MenuView />

@@ -59,7 +59,7 @@ export default class TransactionsStore {
     get groupedByDays() {
         return _.map(
             _.groupBy(this.latest, (t: Transaction) => {
-                return t.momentDate.format("YYYY-MM-DD");
+                return t.dayjsDate.format("YYYY-MM-DD");
             }),
             (transactions: Transaction[], date: string) => ({
                 date,
