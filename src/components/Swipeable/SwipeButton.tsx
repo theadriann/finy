@@ -1,7 +1,8 @@
+// utils
 import React from "react";
 import classnames from "classnames";
-import { useSwipeable, Swipeable } from "react-swipeable";
 import { useSpring, animated, config as SpringConfig } from "react-spring";
+
 import styles from "./SwipeButton.module.scss";
 
 type SwipeButtonProps = {

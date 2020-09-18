@@ -37,7 +37,7 @@ const MoneyViewer: React.FC<MoneyViewerProps> = ({
             );
 
         updateMoney();
-    }, [amount, currency, flow, newCurrency]);
+    }, [date, amount, currency, flow, newCurrency]);
 
     if (!money) {
         return null;

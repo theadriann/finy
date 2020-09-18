@@ -1,5 +1,5 @@
 import React from "react";
-import { useSwipeable, Swipeable } from "react-swipeable";
+import { useSwipeable } from "react-swipeable";
 import { useSpring, config as SpringConfig } from "react-spring";
 
 import SwipeButton from "./SwipeButton";
@@ -25,8 +25,6 @@ const SwipeableButtons: React.FC<
     //
 
     const [deltaX, setDeltaX] = React.useState<number>(0);
-    const [leftSpace, setLeftSpace] = React.useState<number>(0);
-    const [rightSpace, setRightSpace] = React.useState<number>(0);
     const [direction, setDirection] = React.useState<string | undefined>(
         undefined
     );
@@ -90,7 +88,6 @@ const SwipeableButtons: React.FC<
             width = Math.abs(deltaX);
         }
 
-        const visible = width > 0;
         const actionable = width >= threshold;
 
         return (

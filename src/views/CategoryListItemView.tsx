@@ -9,7 +9,6 @@ import styles from "./CategoryListItemView.module.scss";
 // utils
 import React, { useEffect } from "react";
 import { observer } from "mobx-react";
-import { useRootStore } from "@src/stores/RootStore";
 import { resolveTransaction } from "@src/utils/formatMoney";
 
 // views
@@ -26,38 +25,34 @@ const CategoryListItemView: React.FC<{
     // define state
     // -----------------------
 
-    const [money, setMoney] = React.useState<any>();
+    const [money, setMoney] = React.useState<any>(undefined);
 
     // -----------------------
     // get data
     // -----------------------
 
-    const { data: dataStore, ui } = useRootStore();
-
     useEffect(() => {
-        if (!money) {
-            const updateMoney = async () => {
-                let amount = 0;
+        const updateMoney = async () => {
+            let amount = 0;
 
-                for (let transaction of transactions) {
-                    const nwenwNumber = (
-                        await resolveTransaction(transaction, {
-                            currency: wallet.currency,
-                        })
-                    ).amount;
+            for (let transaction of transactions) {
+                const nwenwNumber = (
+                    await resolveTransaction(transaction, {
+                        currency: wallet.currency,
+                    })
+                ).amount;
 
-                    amount += Number(nwenwNumber);
-                }
+                amount += Number(nwenwNumber);
+            }
 
-                setMoney(amount);
-            };
+            setMoney(amount);
+        };
 
-            updateMoney();
-        }
-    }, [transactions]);
+        updateMoney();
+    }, [transactions, wallet.currency]);
 
     // don't show anything if money not resolved
-    if (!money) {
+    if (money === undefined) {
         return null;
     }
 

@@ -7,13 +7,8 @@ import { observer } from "mobx-react";
 // styles
 import styles from "./ChoiceModal.module.scss";
 
-// icons
-import { CgClose } from "react-icons/cg";
-
 // components
 import Modal, { ModalProps } from "@src/components/Modal";
-import { TextField } from "@material-ui/core";
-import Autocomplete from "@material-ui/lab/Autocomplete";
 
 interface IChoiceModal extends ModalProps {}
 

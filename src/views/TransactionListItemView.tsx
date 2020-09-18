@@ -25,7 +25,7 @@ const TransactionListItemView: React.FC<{
     // define state
     // -----------------------
 
-    const [money, setMoney] = React.useState<any>();
+    const [money, setMoney] = React.useState<any>(undefined);
 
     // -----------------------
     // get data
@@ -37,18 +37,16 @@ const TransactionListItemView: React.FC<{
     const category = dataStore.getCategory(transaction.categoryId);
 
     useEffect(() => {
-        if (!money) {
-            const updateMoney = async () =>
-                setMoney(
-                    await resolveTransaction(transaction, { currency: "RON" })
-                );
+        const updateMoney = async () =>
+            setMoney(
+                await resolveTransaction(transaction, { currency: "RON" })
+            );
 
-            updateMoney();
-        }
+        updateMoney();
     }, [transaction]);
 
     // don't show anything if money not resolved
-    if (!money) {
+    if (money === undefined) {
         return null;
     }
 

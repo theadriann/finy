@@ -1,6 +1,6 @@
 // utils
 import { RootStore } from "../RootStore";
-import { action, computed, makeObservable, observable } from "mobx";
+import { action, makeObservable, observable } from "mobx";
 import Deferred from "@src/utils/Deferred";
 
 type ChoiceModalButton = {
@@ -29,7 +29,14 @@ export default class ChoiceModalStore {
 
         this.reset();
 
-        const config: any = { active: observable, options: observable };
+        const config: any = {
+            active: observable,
+            options: observable,
+            //
+            open: action,
+            close: action,
+            reset: action,
+        };
         makeObservable(this, config);
     }
 
