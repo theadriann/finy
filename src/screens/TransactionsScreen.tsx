@@ -1,12 +1,14 @@
 // utils
-import React from "react";
+import _ from "lodash";
 import dayjs from "@src/utils/dayjs";
+import React from "react";
 import { withSkeleton } from "@src/views/SkeletonView";
 import { useRootStore } from "@src/stores/RootStore";
 import { observer, useLocalStore } from "mobx-react";
 
 // components
 import Tabs from "@src/components/Tabs";
+import MonthsCarousel from "@src/components/MonthsCarousel";
 
 // views
 import HeaderView from "@src/views/HeaderView";
@@ -25,15 +27,29 @@ const TransactionsScreen: React.FC = observer((props) => {
             { label: "Categories", value: "categories" },
         ],
         tabsValue: "latest",
+        activeCategoryDate: dayjs(),
         onTabsValueChange(value: string) {
+            localStore.activeCategoryDate = dayjs();
             localStore.tabsValue = value;
         },
+        onActiveCategoryDateChange(month: dayjs.Dayjs) {
+            localStore.activeCategoryDate = month;
+        },
     }));
+
+    const store = useRootStore();
+
+    const startDate = _.last(store.transactions.latest)?.dayjsDate || dayjs();
+    const endDate = dayjs();
 
     const renderList = () => {
         switch (localStore.tabsValue) {
             case "categories":
-                return <CategoriesListView />;
+                return (
+                    <CategoriesListView
+                        monthDate={localStore.activeCategoryDate}
+                    />
+                );
 
             default:
                 return <TransactionsList />;
@@ -49,13 +65,20 @@ const TransactionsScreen: React.FC = observer((props) => {
                     className={styles.tabs}
                     onValueChange={localStore.onTabsValueChange}
                 />
+                {localStore.tabsValue === "categories" && (
+                    <MonthsCarousel
+                        startDate={startDate}
+                        endDate={endDate}
+                        selectedDate={localStore.activeCategoryDate}
+                        onDateChange={localStore.onActiveCategoryDateChange}
+                    />
+                )}
             </HeaderView>
             {/* <div className={styles.heroCard}>
                 <h3>Add expenses</h3>
                 <p>You can add any expenses.</p>
             </div> */}
-
-            {renderList()}
+            <div className={styles.content}>{renderList()}</div>
             <AddTransactionExperience />
         </div>
     );

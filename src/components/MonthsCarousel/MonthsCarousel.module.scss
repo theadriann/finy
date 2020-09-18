@@ -1,0 +1,25 @@
+.container {
+    margin-top: 8px;
+
+    display: flex;
+    flex-flow: row-reverse nowrap;
+    align-items: center;
+
+    overflow: auto;
+
+    .month {
+        display: flex;
+        flex-flow: row nowrap;
+        flex: 0 0 auto;
+
+        padding: 4px 8px;
+        margin-right: 16px;
+
+        &:global(.active) {
+            border-radius: 4px;
+
+            color: white;
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+    }
+}

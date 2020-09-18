@@ -36,13 +36,15 @@ const CategoryListItemView: React.FC<{
             let amount = 0;
 
             for (let transaction of transactions) {
-                const nwenwNumber = (
-                    await resolveTransaction(transaction, {
-                        currency: wallet.currency,
-                    })
-                ).amount;
+                const resolved = await resolveTransaction(transaction, {
+                    currency: wallet.currency,
+                });
 
-                amount += Number(nwenwNumber);
+                if (resolved.signtxt === "plus") {
+                    amount += Number(resolved.amount);
+                } else {
+                    amount -= Number(resolved.amount);
+                }
             }
 
             setMoney(amount);
@@ -67,9 +69,10 @@ const CategoryListItemView: React.FC<{
                 </div>
                 <div className={styles.moneyContainer}>
                     <MoneyViewer
-                        amount={money}
+                        amount={Math.abs(money)}
                         currency={wallet.currency}
                         newCurrency={wallet.currency}
+                        flow={money > 0 ? "in" : "out"}
                         showSign={true}
                     />
                 </div>

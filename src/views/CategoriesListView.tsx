@@ -3,6 +3,7 @@ import Category from "@src/models/Category";
 
 // utils
 import React from "react";
+import dayjs from "@src/utils/dayjs";
 import { observer } from "mobx-react";
 import { useRootStore } from "@src/stores/RootStore";
 
@@ -11,23 +12,29 @@ import CategoryListItemView from "./CategoryListItemView";
 
 type CategoriesListViewProps = {
     walletId?: string;
+    monthDate?: dayjs.Dayjs;
 };
 
 const CategoriesListView: React.FC<CategoriesListViewProps> = observer(
     (props) => {
         const store = useRootStore();
-        const { filter_thisMonth } = store.transactions;
+        const { filter_thisMonth, filter_thatMonth } = store.transactions;
 
         let wallet = store.wallet.wallet;
         let transactions = store.transactions.latest;
+        let filter = filter_thisMonth;
 
         if (props.walletId) {
             wallet = store.data.getWallet(props.walletId);
             transactions = store.transactions.getByWalletId(props.walletId);
         }
 
+        if (props.monthDate) {
+            filter = filter_thatMonth(props.monthDate);
+        }
+
         // filter only this month
-        transactions = transactions.filter(filter_thisMonth, transactions);
+        transactions = transactions.filter(filter, transactions);
 
         const categories = store.data.categories.arr;
 

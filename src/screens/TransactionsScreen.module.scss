@@ -1,10 +1,19 @@
 @import "@src/styles/vars.scss";
 
 .container {
+    display: flex;
+    flex-flow: column nowrap;
+
     height: 100%;
     overflow: hidden;
 
     background: rgb(247, 249, 255);
+
+    .content {
+        flex: 1 1 auto;
+        overflow: auto;
+        padding-bottom: 156px;
+    }
 }
 
 .tabs.tabs {
