@@ -1,0 +1,31 @@
+.section {
+    display: flex;
+    flex-flow: column;
+
+    margin-top: 24px;
+
+    .header {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+
+        color: #9eabd1;
+
+        padding: 0 16px;
+        margin-bottom: 8px;
+
+        span {
+            margin-left: 8px;
+            font-size: 14px;
+        }
+    }
+
+    .content {
+        background: #ffffff;
+
+        .settingItem {
+            box-sizing: border-box;
+            padding: 16px;
+        }
+    }
+}

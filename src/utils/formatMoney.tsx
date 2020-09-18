@@ -95,12 +95,17 @@ export const resolveMoney = async (
 
     const amount = config.amount;
     const newCurrency = options.currency || "RON";
-    const newAmount = await convertMoney(
-        amount,
-        config.currency,
-        newCurrency,
-        config.date
-    );
+
+    let newAmount: any = amount;
+
+    if (newCurrency !== config.currency) {
+        newAmount = await convertMoney(
+            amount,
+            config.currency,
+            newCurrency,
+            config.date
+        );
+    }
 
     return {
         sign: config.flow === "in" ? "+" : "-",

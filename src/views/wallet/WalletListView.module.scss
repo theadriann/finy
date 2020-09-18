@@ -1,0 +1,88 @@
+.container {
+    display: flex;
+    flex-flow: column nowrap;
+
+    .item {
+        display: flex;
+    }
+}
+
+.subheader {
+    padding: 8px 16px;
+    font-size: 12px;
+
+    color: #9eabd1;
+}
+
+.hiddenToggler {
+    padding: 8px;
+    font-size: 12px;
+    text-align: center;
+
+    color: #9eabd1;
+}
+
+.walletItem {
+    position: relative;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+
+    :not(:last-child) {
+        .content:after {
+            position: absolute;
+            content: "";
+            bottom: 0;
+            left: 16px;
+            right: 16px;
+            height: 1px;
+            background: rgb(247, 249, 255);
+        }
+    }
+
+    .content {
+        position: relative;
+        width: 100%;
+        flex: 1 1 auto;
+        box-sizing: border-box;
+
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        align-items: center;
+
+        padding: 16px;
+    }
+
+    .details {
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+
+        .title {
+            font-size: 14px;
+            line-height: 16px;
+            // font-weight: 700;
+
+            color: #000;
+        }
+
+        .money {
+            margin-top: 4px;
+
+            font-size: 12px;
+            line-height: 14px;
+            font-weight: 400;
+
+            color: rgb(188, 188, 188);
+        }
+    }
+
+    .actions {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+    }
+}

@@ -27,11 +27,13 @@ export default class WalletStore {
             wallet: computed,
             invalid: computed,
             noWallets: computed,
+            active: computed,
         };
 
         makeObservable(this, config);
 
         reaction(() => this.store.data.wallets.size, this.onWalletsChange);
+        reaction(() => this.active.length, this.onWalletsChange);
     }
 
     // -----------------------
@@ -44,14 +46,24 @@ export default class WalletStore {
 
         if (!size && this.walletId) {
             return this.setWalletId("");
-        } else if (size && !data.wallets.get(this.walletId || "")) {
-            return this.setWallet(data.wallets.arr[0]);
+        } else if (
+            this.active.length &&
+            !data.wallets.get(this.walletId || "")
+        ) {
+            return this.setWallet(this.active[0]);
         }
     };
 
     // -----------------------
     // core methods
     // -----------------------
+
+    toggleArchiveWallet(wallet: Wallet, value?: boolean | undefined) {
+        wallet.archived = value === undefined ? !wallet.archived : value;
+
+        // commit to db
+        this.store.data.updateWallet(wallet);
+    }
 
     setWalletId(walletId: string) {
         this.walletId = walletId;
@@ -130,6 +142,10 @@ export default class WalletStore {
 
     get wallet(): Wallet | undefined {
         return this.store.data.wallets.get(this.walletId || "");
+    }
+
+    get active(): Wallet[] {
+        return this.store.data.wallets.arr.filter((wallet) => !wallet.archived);
     }
 
     get invalid() {

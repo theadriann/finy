@@ -6,6 +6,8 @@ export type WalletJSON = {
     title?: string;
     amount?: number;
     currency?: Currency;
+
+    archived?: boolean;
 };
 
 export default class Wallet extends BaseObject {
@@ -15,6 +17,8 @@ export default class Wallet extends BaseObject {
     title: string = "";
     amount: number = 0;
     currency: Currency = "RON";
+
+    archived: boolean = false;
 
     constructor(json: WalletJSON) {
         super();
@@ -36,11 +40,13 @@ export default class Wallet extends BaseObject {
         this.title = json.title || "";
         this.amount = json.amount || 0;
         this.currency = json.currency || "RON";
+
+        this.archived = json.archived || false;
     }
 
     toJSON(): any {
-        const { title, amount, currency } = this;
+        const { title, amount, currency, archived } = this;
 
-        return { ...super.toJSON(), title, amount, currency };
+        return { ...super.toJSON(), title, amount, currency, archived };
     }
 }

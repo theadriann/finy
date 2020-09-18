@@ -65,13 +65,6 @@ class DataStore {
         return transaction;
     }
 
-    async deleteTransaction(transaction: Transaction) {
-        await this.store.wallet.revertTransaction(transaction);
-        await this.transactions.delete(transaction.id);
-
-        this.store.firebase.deleteTransaction(transaction.id);
-    }
-
     createCategory(details: CategoryJSON): Category {
         const category = this.addCategory(details);
         this.saveData();
@@ -102,6 +95,46 @@ class DataStore {
             this.wallets.get(id) ||
             new Wallet({ title: "no wallet", currency: "RON" })
         );
+    }
+
+    // -----------------------
+    // delete methods
+    // -----------------------
+
+    async _deleteTransaction(transaction: Transaction) {
+        // remove from map
+        await this.transactions.delete(transaction.id);
+
+        // delete from db
+        this.store.firebase.deleteTransaction(transaction.id);
+    }
+
+    async deleteTransaction(transaction: Transaction) {
+        // revert tranasction inside wallet
+        await this.store.wallet.revertTransaction(transaction);
+
+        // delete transaction
+        this._deleteTransaction(transaction);
+    }
+
+    async _deleteWallet(wallet: Wallet) {
+        // remove from map
+        await this.wallets.delete(wallet.id);
+
+        // delete from db
+        this.store.firebase.deleteWallet(wallet.id);
+    }
+
+    async deleteWallet(wallet: Wallet) {
+        // delete transactions
+        const transactions = this.store.transactions.getByWalletId(wallet.id);
+
+        for (let transaction of transactions) {
+            this._deleteTransaction(transaction);
+        }
+
+        // delete wallet object
+        this._deleteWallet(wallet);
     }
 
     // -----------------------
@@ -136,6 +169,9 @@ class DataStore {
     // -----------------------
 
     loadData(data: any = {}) {
+        this.payees.clear();
+        this.wallets.clear();
+        this.categories.clear();
         this.transactions.clear();
 
         this.loadPayees(data.payees);

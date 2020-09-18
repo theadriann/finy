@@ -15,7 +15,11 @@ import styles from "./WalletSwitcher.module.scss";
 const WalletSwitcher: React.FC = observer(() => {
     const { wallet: walletStore, data, ui } = useRootStore();
     const wallet = walletStore.wallet || walletStore.invalid;
-    const walletsList = data.wallets.arr;
+    const walletsList = walletStore.active.slice();
+
+    if (wallet.archived) {
+        walletsList.push(wallet);
+    }
 
     if (!walletsList.length) {
         walletsList.push(walletStore.invalid);
