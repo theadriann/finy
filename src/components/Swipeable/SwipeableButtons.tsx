@@ -55,6 +55,10 @@ const SwipeableButtons: React.FC<
             button.onAction && button.onAction();
         },
         onSwiping: (eventData) => {
+            if (eventData.dir === "Up" || eventData.dir === "Down") {
+                return false;
+            }
+
             // changing direction is not supported
             if (direction && direction !== eventData.dir) {
                 setDeltaX(0);
@@ -71,6 +75,8 @@ const SwipeableButtons: React.FC<
         },
         trackMouse: true,
         trackTouch: true,
+        preventDefaultTouchmoveEvent: true,
+        delta: 30,
     });
 
     const animatedProps = useSpring({
