@@ -14,12 +14,12 @@
     "url": "https://finy.netlify.app/",
     "icons": [
         {
-            "src": "/public/appicon_192.png",
+            "src": "/appicon_192.png",
             "type": "image/png",
             "sizes": "192x192"
         },
         {
-            "src": "/public/appicon_512.png",
+            "src": "/appicon_512.png",
             "type": "image/png",
             "sizes": "512x512"
         }
@@ -31,7 +31,7 @@
             "short_name": "Transactions",
             "description": "View your transactions",
             "url": "/#/transactions",
-            "icons": [{ "src": "/public/appicon_192.png", "sizes": "192x192" }]
+            "icons": [{ "src": "/appicon_192.png", "sizes": "192x192" }]
         }
     ]
 }
