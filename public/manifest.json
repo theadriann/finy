@@ -10,5 +10,28 @@
     "categories": ["budget", "finance"],
     "scope": "/",
     "theme_color": "#4d84ff",
-    "background_color": "#f7f9ff"
+    "background_color": "#f7f9ff",
+    "url": "https://finy.netlify.app/",
+    "icons": [
+        {
+            "src": "/public/appicon_192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "/public/appicon_512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ],
+    "screenshots": [],
+    "shortcuts": [
+        {
+            "name": "Transactions",
+            "short_name": "Transactions",
+            "description": "View your transactions",
+            "url": "/#/transactions",
+            "icons": [{ "src": "/public/appicon_192.png", "sizes": "192x192" }]
+        }
+    ]
 }
