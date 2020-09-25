@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import dayjs from "@src/utils/dayjs";
 import classnames from "classnames";
-import { FormattedMoney, resolveMoney } from "@src/utils/formatMoney";
+import { ResolvedMoney, resolveMoney } from "@src/utils/money";
 
 type MoneyViewerProps = {
     date?: dayjs.Dayjs | number | string;
@@ -25,7 +25,7 @@ const MoneyViewer: React.FC<MoneyViewerProps> = ({
     showSign,
     className,
 }) => {
-    const [money, setMoney] = useState<FormattedMoney>();
+    const [money, setMoney] = useState<ResolvedMoney>();
 
     useEffect(() => {
         const updateMoney = async () =>
@@ -44,15 +44,16 @@ const MoneyViewer: React.FC<MoneyViewerProps> = ({
     }
 
     const renderSign = () =>
-        showSign && <span className="sign">{money.sign}</span>;
+        showSign && <span className="sign">{money.signChar}</span>;
 
     return (
         <div
-            className={classnames("money", `sign-${money.signtxt}`, className)}
+            className={classnames("money", `sign-${money.signText}`, className)}
         >
             {renderSign()}
             {money.amount}
-            {money.currency}
+            <span>&nbsp;</span>
+            {money.symbol}
         </div>
     );
 };

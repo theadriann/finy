@@ -12,7 +12,7 @@ declare global {
         innerRef?: Function;
     };
 
-    type Currency = "RON" | "USD" | "RON";
+    type Currency = "RON" | "USD" | "EUR";
 
     type GetComponentProps<T> = T extends
         | React.ComponentType<infer P>

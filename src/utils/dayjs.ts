@@ -23,4 +23,7 @@ dayjs.updateLocale("en", {
     },
 });
 
+// default formats through the whole app
+export const DATE_FORMAT = "YYYY-MM-DD";
+
 export default dayjs;

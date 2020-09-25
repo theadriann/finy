@@ -9,7 +9,7 @@ import styles from "./CategoryListItemView.module.scss";
 // utils
 import React, { useEffect } from "react";
 import { observer } from "mobx-react";
-import { resolveTransaction } from "@src/utils/formatMoney";
+import { resolveTransaction } from "@src/utils/money";
 
 // views
 import MoneyViewer from "./MoneyViewer";
@@ -40,7 +40,7 @@ const CategoryListItemView: React.FC<{
                     currency: wallet.currency,
                 });
 
-                if (resolved.signtxt === "plus") {
+                if (resolved.isPositive) {
                     amount += Number(resolved.amount);
                 } else {
                     amount -= Number(resolved.amount);

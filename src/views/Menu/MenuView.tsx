@@ -8,7 +8,7 @@ import { observer } from "mobx-react";
 import { useRootStore } from "@src/stores/RootStore";
 
 // components
-import { CgUser, CgChart, CgHome, CgNotes } from "react-icons/cg";
+import { CgUser, CgChart, CgHome, CgNotes, CgFeed } from "react-icons/cg";
 
 const MenuView: React.FC = observer(() => {
     const { routing, ui } = useRootStore();
@@ -33,6 +33,12 @@ const MenuView: React.FC = observer(() => {
                     icon={<CgChart />}
                     label="Statistics"
                     onClick={() => goTo("/statistics")}
+                />
+                <MenuItem
+                    active={routing.isOn("/categories")}
+                    icon={<CgFeed />}
+                    label="Categories"
+                    onClick={() => goTo("/categories")}
                 />
                 <MenuItem
                     active={routing.isOn("/transactions")}

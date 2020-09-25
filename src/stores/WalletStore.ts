@@ -5,7 +5,7 @@ import Transaction from "@src/models/Transaction";
 // utils
 import { RootStore } from "./RootStore";
 import { makeObservable, observable, computed, action, reaction } from "mobx";
-import { resolveMoney } from "@src/utils/formatMoney";
+import { resolveMoney } from "@src/utils/money";
 
 export default class WalletStore {
     //
@@ -95,7 +95,7 @@ export default class WalletStore {
                 { currency: wallet.currency }
             );
 
-            wallet.amount += money.absoluteAmount;
+            wallet.amount += money.signedAmount;
             transaction._processed = true;
         }
 
@@ -120,7 +120,7 @@ export default class WalletStore {
             { currency: wallet.currency }
         );
 
-        wallet.amount -= money.absoluteAmount;
+        wallet.amount -= money.signedAmount;
         transaction._processed = true;
 
         return this.store.firebase.updateWallet(wallet.id, wallet.toJSON());

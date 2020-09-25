@@ -12,7 +12,7 @@ import styles from "./TransactionListItemView.module.scss";
 // utils
 import React, { useEffect } from "react";
 import { observer } from "mobx-react";
-import { resolveTransaction } from "@src/utils/formatMoney";
+import { resolveTransaction } from "@src/utils/money";
 import { useRootStore } from "@src/stores/RootStore";
 
 // views
