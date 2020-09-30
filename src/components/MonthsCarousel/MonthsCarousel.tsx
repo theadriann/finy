@@ -24,8 +24,13 @@ const MonthsCarousel: React.FC<{
     }
 
     useEffect(() => {
-        const monthsDiff = endDate.diff(startDate, "month");
+        let monthsDiff = endDate.diff(startDate, "month");
         const datesDiff = [];
+
+        // bug
+        if (!monthsDiff && !startDate.isSame(endDate, "month")) {
+            monthsDiff++;
+        }
 
         for (let i = 0; i <= monthsDiff; i++) {
             const someDate = endDate.subtract(i, "month");

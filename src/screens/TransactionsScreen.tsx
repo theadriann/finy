@@ -21,64 +21,14 @@ import styles from "./TransactionsScreen.module.scss";
 interface TransactionsScreenProps extends GenericComponentProps {}
 
 const TransactionsScreen: React.FC = observer((props) => {
-    const localStore = useLocalStore(() => ({
-        tabs: [
-            { label: "Last Transactions", value: "latest" },
-            { label: "Categories", value: "categories" },
-        ],
-        tabsValue: "latest",
-        activeCategoryDate: dayjs(),
-        onTabsValueChange(value: string) {
-            localStore.activeCategoryDate = dayjs();
-            localStore.tabsValue = value;
-        },
-        onActiveCategoryDateChange(month: dayjs.Dayjs) {
-            localStore.activeCategoryDate = month;
-        },
-    }));
-
     const store = useRootStore();
-
-    const startDate = _.last(store.transactions.latest)?.dayjsDate || dayjs();
-    const endDate = dayjs();
-
-    const renderList = () => {
-        switch (localStore.tabsValue) {
-            case "categories":
-                return (
-                    <CategoriesListView
-                        monthDate={localStore.activeCategoryDate}
-                    />
-                );
-
-            default:
-                return <TransactionsList />;
-        }
-    };
 
     return (
         <div className={styles.container}>
-            <HeaderView>
-                <Tabs
-                    value={localStore.tabsValue}
-                    options={localStore.tabs}
-                    className={styles.tabs}
-                    onValueChange={localStore.onTabsValueChange}
-                />
-                {localStore.tabsValue === "categories" && (
-                    <MonthsCarousel
-                        startDate={startDate}
-                        endDate={endDate}
-                        selectedDate={localStore.activeCategoryDate}
-                        onDateChange={localStore.onActiveCategoryDateChange}
-                    />
-                )}
-            </HeaderView>
-            {/* <div className={styles.heroCard}>
-                <h3>Add expenses</h3>
-                <p>You can add any expenses.</p>
-            </div> */}
-            <div className={styles.content}>{renderList()}</div>
+            <HeaderView />
+            <div className={styles.content}>
+                <TransactionsList />
+            </div>
             <AddTransactionExperience />
         </div>
     );

@@ -18,6 +18,7 @@ import { observer, Provider as MobxProvider } from "mobx-react";
 // screens
 import HomeScreen from "@src/screens/HomeScreen";
 import AccountScreen from "@src/screens/AccountScreen";
+import CategoriesScreen from "@src/screens/CategoriesScreen";
 import StatisticsScreen from "@src/screens/StatisticsScreen";
 import TransactionsScreen from "@src/screens/TransactionsScreen";
 
@@ -58,6 +59,7 @@ class App extends React.Component {
         return (
             <Switch>
                 <Route path="/" component={HomeScreen} exact />
+                <Route path="/categories" component={CategoriesScreen} />
                 <Route path="/transactions" component={TransactionsScreen} />
                 <Route path="/statistics" component={StatisticsScreen} />
                 <Route path="/account" component={AccountScreen} />

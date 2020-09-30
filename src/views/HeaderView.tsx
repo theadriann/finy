@@ -25,7 +25,7 @@ HeaderView.defaultProps = {
 const Title: React.FC = observer(() => {
     const { routing } = useRootStore();
 
-    let title = "Home v2";
+    let title = "Home";
 
     if (routing.isOn("/transactions")) {
         title = "Transactions";

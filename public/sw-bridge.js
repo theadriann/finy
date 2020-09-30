@@ -1,4 +1,12 @@
 const start = async () => {
+    // const regs = await navigator.serviceWorker.getRegistrations();
+
+    // for (let reg of regs) {
+    //     reg.unregister({ immediate: true });
+    // }
+
+    // return;
+
     const reg = await navigator.serviceWorker.register("/service-worker.js");
 
     reg.onupdatefound = async () => {

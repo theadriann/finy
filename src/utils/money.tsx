@@ -92,7 +92,7 @@ export const convertCurrency = async ({
 
     // fetch rates & define vars
     let rates = await fetchRatesAt(date);
-    let newAmount = currency(amount).multiply(100);
+    let newAmount = currency(amount, { precision: 2 }).multiply(100);
 
     // going to eur if not
     if (from !== "EUR") {
@@ -146,6 +146,8 @@ export const resolveMoney = async (
             to: newCurrency,
             date: config.date,
         });
+    } else {
+        newAmount = currency(amount, { precision: 2 }).value;
     }
 
     const isInflow = config.flow === "in";

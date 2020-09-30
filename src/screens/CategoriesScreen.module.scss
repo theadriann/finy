@@ -1,0 +1,81 @@
+@import "@src/styles/vars.scss";
+
+.container {
+    display: flex;
+    flex-flow: column nowrap;
+
+    height: 100%;
+    overflow: hidden;
+
+    background: rgb(247, 249, 255);
+
+    .content {
+        flex: 1 1 auto;
+        overflow: auto;
+        padding-bottom: 156px;
+    }
+}
+
+.tabs.tabs {
+    :global(.tab-component) {
+        color: white;
+        padding: 4px 8px;
+
+        &:global(.selected) {
+            border-radius: 4px;
+
+            color: white;
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+    }
+}
+
+.heroCard {
+    display: flex;
+    flex-flow: column nowrap;
+
+    box-sizing: border-box;
+    margin: 24px;
+    padding: 24px;
+    border-radius: 16px;
+    // padding-bottom: 30%;
+    height: 145px;
+    aspect-ratio: 1/3;
+
+    box-shadow: 0px 3px 6px rgba($blue, 0.3);
+
+    color: white;
+    background: $blue;
+
+    h3,
+    p {
+        color: white;
+        margin: 0;
+        padding: 0;
+    }
+
+    h3 {
+        margin-bottom: 8px;
+        font-size: 24px;
+        line-height: 26px;
+    }
+
+    p {
+        font-size: 14px;
+        line-height: 16px;
+    }
+}
+
+.groupTitle {
+    padding: 16px;
+
+    font-size: 14px;
+    line-height: 16px;
+
+    color: rgb(158, 171, 209);
+    background: rgb(247, 249, 255);
+}
+
+.groupContent {
+    background: white;
+}
