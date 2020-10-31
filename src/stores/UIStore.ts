@@ -5,6 +5,7 @@ import { action, computed, makeObservable, observable } from "mobx";
 
 import AddWalletStore from "./ui/AddWalletStore";
 import ChoiceModalStore from "./ui/ChoiceModalStore";
+import EditTransactionStore from "./ui/EditTransactionStore";
 
 interface Navigator {
     standalone?: boolean;
@@ -16,6 +17,7 @@ export default class UIStore {
     store: RootStore;
 
     addWallet: AddWalletStore;
+    editTransaction: EditTransactionStore;
     choiceModal: ChoiceModalStore;
 
     saiListener: any = undefined;
@@ -25,6 +27,7 @@ export default class UIStore {
         this.store = store;
 
         this.addWallet = new AddWalletStore(this.store);
+        this.editTransaction = new EditTransactionStore(this.store);
         this.choiceModal = new ChoiceModalStore(this.store);
 
         const config: any = {

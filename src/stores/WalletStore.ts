@@ -121,7 +121,7 @@ export default class WalletStore {
         );
 
         wallet.amount -= money.signedAmount;
-        transaction._processed = true;
+        transaction._processed = false;
 
         return this.store.firebase.updateWallet(wallet.id, wallet.toJSON());
     }
