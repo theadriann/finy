@@ -164,6 +164,13 @@ class DataStore {
         return this.store.firebase.updateWallet(wallet.id, wallet.toJSON());
     }
 
+    updateTransaction(transaction: Transaction) {
+        return this.store.firebase.updateTransaction(
+            transaction.id,
+            transaction.toJSON()
+        );
+    }
+
     // -----------------------
     // load data methods
     // -----------------------

@@ -5,7 +5,7 @@ import rootStore from "@src/stores/RootStore";
 import { observer } from "mobx-react";
 
 // styles
-import styles from "./AddWalletModal.module.scss";
+import styles from "@src/views/ControlModal/ControlModal.module.scss";
 
 // icons
 import { CgClose } from "react-icons/cg";

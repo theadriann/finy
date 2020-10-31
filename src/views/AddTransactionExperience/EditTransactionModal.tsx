@@ -31,165 +31,115 @@ interface IAddTransactionModal extends ModalProps {
 export default class AddTransactionModal extends Modal<IAddTransactionModal> {
     //
 
-    data: {
-        payee: Payee | null;
-        payeeInput: string;
-        category: Category | null;
-        categoryInput: string;
-        date: any;
-        amount: number;
-        currency: string;
-        outflow: boolean;
-    } = {
-        payee: null,
-        payeeInput: "",
-        categoryInput: "",
-        category: null,
-        amount: 0,
-        currency: "RON",
-        date: dayjs(),
-        outflow: true,
-    };
-
     constructor(props: any) {
         super(props);
 
         const config: any = {
-            data: observable,
-            //
-            onPayeeChange: action,
-            onPayeeInputChange: action,
-            onCategoryInputChange: action,
-            onCategoryChange: action,
-            onOutFlowChange: action,
-            onAmountChange: action,
-            onCurrencyChange: action,
-            onSubmitClick: action,
-            reset: action,
-            //
-            isValid: computed,
+            data: computed,
+            store: computed,
         };
         makeObservable(this, config);
-    }
-
-    reset() {
-        this.data = {
-            payee: null,
-            payeeInput: "",
-            categoryInput: "",
-            category: null,
-            amount: 0,
-            currency: "RON",
-            date: dayjs(),
-            outflow: true,
-        };
     }
 
     // -----------------------
     // event handling methods
     // -----------------------
 
-    onPayeeChange = (event: any, payee: Payee | string | null) => {
-        if (!payee) {
-            this.data.payeeInput = "";
-            this.data.payee = null;
-            return;
-        }
+    // onPayeeChange = (event: any, payee: Payee | string | null) => {
+    //     if (!payee) {
+    //         this.data.payeeInput = "";
+    //         this.data.payee = null;
+    //         return;
+    //     }
 
-        if (typeof payee === "string") {
-            payee = rootStore.data.createPayee({
-                name: payee.replace("Add ", ""),
-            });
-        }
+    //     if (typeof payee === "string") {
+    //         payee = rootStore.data.createPayee({
+    //             name: payee.replace("Add ", ""),
+    //         });
+    //     }
 
-        this.data.payeeInput = payee.name;
-        this.data.payee = payee;
-    };
+    //     this.data.payeeInput = payee.name;
+    //     this.data.payee = payee;
+    // };
 
-    onPayeeInputChange = (event: any, name: string) => {
-        this.data.payeeInput = name;
-    };
+    // onPayeeInputChange = (event: any, name: string) => {
+    //     this.data.payeeInput = name;
+    // };
 
-    onAmountChange = (event: any) => {
-        this.data.amount = Number(event.target.value);
-    };
+    // onAmountChange = (event: any) => {
+    //     this.data.amount = Number(event.target.value);
+    // };
 
-    onCurrencyChange = (event: any, currency: any) => {
-        this.data.currency = currency || "RON";
-    };
+    // onCurrencyChange = (event: any, currency: any) => {
+    //     this.data.currency = currency || "RON";
+    // };
 
-    onDateChange = (newValue: any) => {
-        this.data.date = newValue;
-    };
+    // onDateChange = (newValue: any) => {
+    //     this.data.date = newValue;
+    // };
 
-    onCategoryChange = (event: any, category: Category | null | string) => {
-        if (!category) {
-            this.data.categoryInput = "";
-            this.data.category = null;
-            return;
-        }
+    // onCategoryChange = (event: any, category: Category | null | string) => {
+    //     if (!category) {
+    //         this.data.categoryInput = "";
+    //         this.data.category = null;
+    //         return;
+    //     }
 
-        if (typeof category === "string") {
-            category = rootStore.data.createCategory({
-                label: category.replace("Add ", ""),
-            });
-        }
+    //     if (typeof category === "string") {
+    //         category = rootStore.data.createCategory({
+    //             label: category.replace("Add ", ""),
+    //         });
+    //     }
 
-        this.data.categoryInput = category.label;
-        this.data.category = category || null;
-    };
+    //     this.data.categoryInput = category.label;
+    //     this.data.category = category || null;
+    // };
 
-    onCategoryInputChange = (event: any, categoryName: any) => {
-        this.data.categoryInput = categoryName;
-    };
+    // onCategoryInputChange = (event: any, categoryName: any) => {
+    //     this.data.categoryInput = categoryName;
+    // };
 
-    onOutFlowChange = (e: any) => {
-        this.data.outflow = e.target.checked;
-    };
+    // onOutFlowChange = (e: any) => {
+    //     this.data.outflow = e.target.checked;
+    // };
 
-    onSubmitClick = () => {
-        if (!this.isValid) {
-            return false;
-        }
+    // onSubmitClick = () => {
+    //     if (!this.isValid) {
+    //         return false;
+    //     }
 
-        const data = this.data;
-        const { onSubmit } = this.props;
+    //     const data = this.data;
+    //     const { onSubmit } = this.props;
 
-        rootStore.data.addTransaction({
-            date: dayjs(data.date).unix(),
-            flow: data.outflow ? "out" : "in",
-            amount: data.amount,
-            currency: data.currency as Currency,
-            payeeId: data.payee?.id,
-            walletId: rootStore.wallet.walletId,
-            categoryId: data.category?.id,
-        });
+    //     rootStore.data.addTransaction({
+    //         date: dayjs(data.date).unix(),
+    //         flow: data.outflow ? "out" : "in",
+    //         amount: data.amount,
+    //         currency: data.currency as Currency,
+    //         payeeId: data.payee?.id,
+    //         walletId: rootStore.wallet.walletId,
+    //         categoryId: data.category?.id,
+    //     });
 
-        rootStore.data.saveData();
-        rootStore.wallet.processTransactions();
+    //     rootStore.data.saveData();
+    //     rootStore.wallet.processTransactions();
 
-        this.reset();
+    //     this.reset();
 
-        onSubmit && onSubmit();
-    };
+    //     onSubmit && onSubmit();
+    // };
 
-    onRequestClose = () => {
-        this.reset();
-        this.trigger("onDismiss");
-    };
+    // onRequestClose = () => {
+    //     this.reset();
+    //     this.trigger("onDismiss");
+    // };
 
-    get isValid() {
-        if (
-            !this.data.payee ||
-            !this.data.date ||
-            !this.data.category ||
-            !this.data.currency ||
-            typeof this.data.payee === "string"
-        ) {
-            return false;
-        }
+    get store() {
+        return rootStore.ui.editTransaction;
+    }
 
-        return true;
+    get data() {
+        return this.store.data;
     }
 
     // -----------------------
@@ -205,18 +155,20 @@ export default class AddTransactionModal extends Modal<IAddTransactionModal> {
     }
 
     renderModalContent() {
+        const onSubmit = this.props.onSubmit;
+
         return (
             <>
                 <div className={styles.topbar}>
-                    <h2>Add Transaction</h2>
+                    <h2>Edit Transaction</h2>
                     {this.renderCloseButton()}
                 </div>
                 <div className={styles.content}>{this.renderControls()}</div>
                 <div
                     className={classnames("f-button", styles.submitButton)}
-                    onClick={this.onSubmitClick}
+                    onClick={() => onSubmit && onSubmit()}
                 >
-                    Add
+                    Save
                 </div>
             </>
         );
@@ -236,11 +188,15 @@ export default class AddTransactionModal extends Modal<IAddTransactionModal> {
     }
 
     renderPayeeControl() {
-        const options: any = rootStore.data.payees.arr.slice();
+        const inputValue = this.data.payeeInput;
         const value: Payee | string | null = this.data.payee;
 
-        if (this.data.payeeInput.length) {
-            options.push(`Add ${this.data.payeeInput}`);
+        // get all payees
+        const options: any = rootStore.data.payees.arr.slice();
+
+        // add "create this new payee"
+        if (inputValue.length) {
+            options.push(`Add ${inputValue}`);
         }
 
         const getOptionLabel = (payee: Payee | string | null) => {
@@ -261,9 +217,9 @@ export default class AddTransactionModal extends Modal<IAddTransactionModal> {
                     clearOnEscape={false}
                     value={value}
                     options={options}
-                    inputValue={this.data.payeeInput}
-                    onChange={this.onPayeeChange}
-                    onInputChange={this.onPayeeInputChange}
+                    inputValue={inputValue}
+                    onChange={this.store.onPayeeSelect}
+                    onInputChange={this.store.onPayeeInputChange}
                     getOptionLabel={getOptionLabel}
                     renderInput={(params) => (
                         <TextField
@@ -288,18 +244,21 @@ export default class AddTransactionModal extends Modal<IAddTransactionModal> {
                     variant="standard"
                     type="number"
                     className={styles.textField}
-                    onChange={this.onAmountChange}
+                    onChange={this.store.onAmountChange}
                 />
             </div>
         );
     }
 
     renderCurrencyControl() {
+        const value = this.data.currency;
+        const onCurrencyChange = this.store.onCurrencyChange;
+
         return (
             <div className={classnames(styles.control)}>
                 <Autocomplete
-                    value={this.data.currency}
-                    onChange={this.onCurrencyChange}
+                    value={value}
+                    onChange={onCurrencyChange}
                     options={["USD", "RON", "EUR"]}
                     getOptionLabel={(currency) => currency}
                     renderInput={(params) => (
@@ -317,13 +276,16 @@ export default class AddTransactionModal extends Modal<IAddTransactionModal> {
     }
 
     renderDateControl() {
+        const value = this.data.date;
+        const onDateChange = this.store.onDateChange;
+
         return (
             <div className={classnames(styles.control)}>
                 <DatePicker
                     label="Date"
-                    value={this.data.date}
+                    value={value}
                     className={styles.textField}
-                    onChange={this.onDateChange}
+                    onChange={onDateChange}
                     renderInput={(props: any) => <TextField {...props} />}
                 />
             </div>
@@ -331,14 +293,14 @@ export default class AddTransactionModal extends Modal<IAddTransactionModal> {
     }
 
     renderCategoryControl() {
-        const value: Category | string | null = this.data.category;
+        const value: Category | null | string = this.data.category;
         const options: any = rootStore.data.categories.arr.slice();
 
         if (this.data.categoryInput.length) {
             options.push(`Add ${this.data.categoryInput}`);
         }
 
-        const getOptionLabel = (category: Category | string | null) => {
+        const getOptionLabel = (category: Category | string | undefined) => {
             if (!category) {
                 return "";
             }
@@ -356,8 +318,8 @@ export default class AddTransactionModal extends Modal<IAddTransactionModal> {
                     value={value}
                     options={options}
                     inputValue={this.data.categoryInput}
-                    onChange={this.onCategoryChange}
-                    onInputChange={this.onCategoryInputChange}
+                    onChange={this.store.onCategoryChange}
+                    onInputChange={this.store.onCategoryInputChange}
                     getOptionLabel={getOptionLabel}
                     renderInput={(params) => (
                         <TextField
@@ -379,7 +341,7 @@ export default class AddTransactionModal extends Modal<IAddTransactionModal> {
                 <label>Outflow</label>
                 <Switch
                     checked={this.data.outflow}
-                    onChange={this.onOutFlowChange}
+                    onChange={this.store.onOutFlowChange}
                 />
             </div>
         );

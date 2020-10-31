@@ -15,6 +15,7 @@ import HeaderView from "@src/views/HeaderView";
 import CategoriesListView from "@src/views/CategoriesListView";
 import TransactionListItemView from "@src/views/TransactionListItemView";
 import AddTransactionExperience from "@src/views/AddTransactionExperience";
+import { EditTransactionExperience } from "@src/views/AddTransactionExperience";
 
 import styles from "./TransactionsScreen.module.scss";
 
@@ -30,6 +31,7 @@ const TransactionsScreen: React.FC = observer((props) => {
                 <TransactionsList />
             </div>
             <AddTransactionExperience />
+            <EditTransactionExperience />
         </div>
     );
 });

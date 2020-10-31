@@ -68,7 +68,7 @@ const TransactionListItemView: React.FC<{
                     icon: <CgPen size={20} />,
                     label: "Edit",
                     position: "left",
-                    onAction: () => console.log("will edit"),
+                    onAction: () => ui.editTransaction.start(transaction),
                 },
                 {
                     icon: <CgTrash size={20} />,

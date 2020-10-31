@@ -20,22 +20,26 @@ const CategoriesListView: React.FC<CategoriesListViewProps> = observer(
         const store = useRootStore();
         const { filter_thisMonth, filter_thatMonth } = store.transactions;
 
+        // get default data from stores
         let wallet = store.wallet.wallet;
         let transactions = store.transactions.latest;
         let filter = filter_thisMonth;
 
+        // change wallet if provided
         if (props.walletId) {
             wallet = store.data.getWallet(props.walletId);
             transactions = store.transactions.getByWalletId(props.walletId);
         }
 
+        // change filter if provided
         if (props.monthDate) {
             filter = filter_thatMonth(props.monthDate);
         }
 
-        // filter only this month
+        // apply filter
         transactions = transactions.filter(filter, transactions);
 
+        // get all categories
         const categories = store.data.categories.arr;
 
         if (!wallet) {
@@ -43,7 +47,7 @@ const CategoriesListView: React.FC<CategoriesListViewProps> = observer(
         }
 
         const renderCategory = (category: Category) => {
-            const tAll = store.transactions.getByCategoryId(
+            const categoryTransactions = store.transactions.getByCategoryId(
                 category.id,
                 transactions
             );
@@ -53,7 +57,7 @@ const CategoriesListView: React.FC<CategoriesListViewProps> = observer(
                     key={category.id}
                     wallet={wallet!}
                     category={category}
-                    transactions={tAll}
+                    transactions={categoryTransactions}
                 />
             );
         };
