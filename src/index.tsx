@@ -4,7 +4,6 @@ import "./index.scss";
 // utils
 import * as React from "react";
 import { render } from "react-dom";
-import "mobx-react/batchingForReactDom";
 
 // app
 import App from "./App";

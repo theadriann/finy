@@ -1,8 +1,7 @@
 // utils
-import "@src/index.d.ts";
 import React from "react";
-import { useRootStore } from "@src/stores/RootStore";
 import { observer } from "mobx-react";
+import { useRootStore } from "@src/stores/RootStore";
 
 // views
 // import MenuView from "./Menu/MenuView";

@@ -1,6 +1,6 @@
 // Firebase App (the core Firebase SDK) is always required and must be listed first
-import * as firebase from "firebase/app";
-import * as firebaseui from "firebaseui";
+import { default as firebase } from "firebase/app";
+import { default as firebaseui } from "firebaseui";
 
 // If you enabled Analytics in your project, add the Firebase SDK for Analytics
 import "firebase/analytics";
@@ -29,8 +29,8 @@ export default class FireBaseStore {
     store: RootStore;
     parent: RootStore;
 
-    provider: any;
-    userData: any;
+    provider: any = null;
+    userData: any = null;
 
     ui?: firebaseui.auth.AuthUI;
     db: firebase.database.Database;
@@ -41,7 +41,7 @@ export default class FireBaseStore {
         signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
         callbacks: {
             signInSuccessWithAuthResult: (authResult: any) => {
-                this.userData = authResult;
+                this.setUserData(authResult);
 
                 return false;
             },
@@ -49,8 +49,6 @@ export default class FireBaseStore {
     };
 
     constructor(store: RootStore, parent: RootStore) {
-        makeAutoObservable(this);
-
         this.store = store;
         this.parent = parent;
 
@@ -59,12 +57,19 @@ export default class FireBaseStore {
         this.auth = firebase.auth();
         this.db = firebase.database();
 
-        this.setupAuth();
-        this.init();
-
         reaction(() => this.isLoggedIn, this.onLoggedInChange);
         this.onLoggedInChange();
+
+        makeAutoObservable(this);
     }
+
+    init() {
+        this.setupAuth();
+    }
+
+    setUserData = (data: any) => {
+        this.userData = data?.user;
+    };
 
     logout() {
         return this.auth.signOut();
@@ -73,23 +78,8 @@ export default class FireBaseStore {
     setupAuth() {
         this.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
         this.auth.onAuthStateChanged((userData) => {
-            this.userData = userData;
+            this.setUserData({ user: { ...userData } });
         });
-    }
-
-    async init() {
-        // this.ui = new firebaseui.auth.AuthUI(this.auth);
-        // this.ui.start("#login-window", {
-        //     signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
-        //     callbacks: {
-        //         signInSuccessWithAuthResult: (authResult) => {
-        //             this.userData = authResult;
-        //             return false;
-        //         },
-        //         uiShown: () => (this.authLoaded = true),
-        //     },
-        //     signInFlow: "popup",
-        // });
     }
 
     // -----------------------
@@ -191,7 +181,7 @@ export default class FireBaseStore {
     // -----------------------
 
     get isLoggedIn() {
-        return Boolean(this.userData);
+        return this.userData;
     }
 
     // -----------------------

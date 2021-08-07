@@ -11,7 +11,7 @@ export default class WalletStore {
     //
 
     store: RootStore;
-    walletId?: string;
+    walletId?: string = "";
 
     constructor(store: RootStore) {
         this.store = store;

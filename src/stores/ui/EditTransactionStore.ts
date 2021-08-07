@@ -24,7 +24,7 @@ export default class EditTransactionStore {
 
     active: boolean = false;
 
-    transaction?: Transaction;
+    transaction?: Transaction | null = null;
     data: EditTransactionData = {
         payee: null,
         payeeInput: "",

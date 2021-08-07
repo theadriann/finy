@@ -4,7 +4,7 @@ import dayjs from "@src/utils/dayjs";
 import React from "react";
 import { withSkeleton } from "@src/views/SkeletonView";
 import { useRootStore } from "@src/stores/RootStore";
-import { observer, useLocalStore } from "mobx-react";
+import { observer, useLocalObservable } from "mobx-react";
 
 // components
 import Tabs from "@src/components/Tabs";
@@ -21,7 +21,7 @@ import styles from "./CategoriesScreen.module.scss";
 interface CategoriesScreenProps extends GenericComponentProps {}
 
 const CategoriesScreen: React.FC = observer((props) => {
-    const localStore = useLocalStore(() => ({
+    const localStore = useLocalObservable(() => ({
         activeCategoryDate: dayjs(),
         onActiveCategoryDateChange(month: dayjs.Dayjs) {
             localStore.activeCategoryDate = month;

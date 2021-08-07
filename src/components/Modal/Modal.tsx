@@ -50,7 +50,7 @@ export default class Modal<T extends ModalProps> extends React.Component<T> {
         eventName: "onOpen" | "onDismiss" | "innerOverlayRef" | "innerModalRef",
         ...args: any[]
     ) => {
-        const fn = this.props[eventName];
+        const fn: any = this.props[eventName];
 
         if (fn) {
             fn(...args);

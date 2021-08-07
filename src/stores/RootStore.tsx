@@ -1,6 +1,3 @@
-// utils
-import { makeAutoObservable } from "mobx";
-
 // stores
 import UIStore from "./UIStore";
 import DataStore from "./DataStore";
@@ -9,7 +6,9 @@ import RoutingStore from "./RoutingStore";
 import FireBaseStore from "./FireBaseStore";
 import TransactionsStore from "./TransactionsStore";
 
-import { createContext, useStore } from "./utils";
+// utils
+import React from "react";
+import { createContext, useContext } from "react";
 
 export class RootStore {
     //
@@ -22,25 +21,28 @@ export class RootStore {
     transactions: TransactionsStore;
 
     constructor() {
-        makeAutoObservable(this);
-
         this.ui = new UIStore(this);
         this.data = new DataStore(this, this);
         this.wallet = new WalletStore(this);
         this.routing = new RoutingStore(this);
         this.transactions = new TransactionsStore(this);
         this.firebase = new FireBaseStore(this, this);
-
-        this.init();
     }
 
     init() {
         this.data.loadData();
+        this.firebase.init();
     }
 }
 
 const rootStore = new RootStore();
-const storeContext = createContext(rootStore);
+export const RootStoreContext = createContext(rootStore);
+
+export const RootStoreProvider = ({ children }: any) => (
+    <RootStoreContext.Provider value={rootStore}>
+        {children}
+    </RootStoreContext.Provider>
+);
 
 declare global {
     interface Window {
@@ -51,5 +53,6 @@ declare global {
 
 window.rootStore = rootStore;
 
-export const useRootStore = (): RootStore => useStore(RootStore, storeContext);
+export const useRootStore = (): RootStore => useContext(RootStoreContext);
+
 export default rootStore;

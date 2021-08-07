@@ -2,7 +2,11 @@
 import styles from "./App.module.scss";
 
 // stores
-import store from "@src/stores/RootStore";
+import {
+    RootStoreContext,
+    RootStoreProvider,
+    useRootStore,
+} from "@src/stores/RootStore";
 
 // styles
 import "./index.scss";
@@ -13,7 +17,8 @@ import DayJSUtils from "@material-ui/pickers/adapter/dayjs";
 import { Router } from "react-router";
 import { Switch, Route } from "react-router-dom";
 import { LocalizationProvider } from "@material-ui/pickers";
-import { observer, Provider as MobxProvider } from "mobx-react";
+import { toJS } from "mobx";
+import { observer } from "mobx-react";
 
 // screens
 import HomeScreen from "@src/screens/HomeScreen";
@@ -26,46 +31,60 @@ import TransactionsScreen from "@src/screens/TransactionsScreen";
 import MenuView from "./views/Menu/MenuView";
 import SkeletonView from "./views/SkeletonView";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+import { useEffect } from "react";
 
-@observer
-class App extends React.Component {
+const AppContent = observer(() => {
     //
+    const store = useRootStore();
 
-    render() {
-        if (!store.firebase.isLoggedIn) {
-            return (
-                <SkeletonView>
-                    <StyledFirebaseAuth
-                        uiConfig={store.firebase.authOptions}
-                        firebaseAuth={store.firebase.auth}
-                    />
-                </SkeletonView>
-            );
-        }
+    useEffect(() => {
+        store.init();
+    }, []);
 
+    if (!store.firebase.isLoggedIn) {
         return (
-            <MobxProvider store={store}>
-                <LocalizationProvider dateAdapter={DayJSUtils}>
-                    <Router history={store.routing.history}>
-                        <div className={styles.page}>{this.renderRoutes()}</div>
-                        <MenuView />
-                    </Router>
-                </LocalizationProvider>
-            </MobxProvider>
+            <SkeletonView>
+                <StyledFirebaseAuth
+                    uiConfig={store.firebase.authOptions}
+                    firebaseAuth={store.firebase.auth}
+                />
+            </SkeletonView>
         );
     }
 
-    renderRoutes() {
-        return (
-            <Switch>
-                <Route path="/" component={HomeScreen} exact />
-                <Route path="/categories" component={CategoriesScreen} />
-                <Route path="/transactions" component={TransactionsScreen} />
-                <Route path="/statistics" component={StatisticsScreen} />
-                <Route path="/account" component={AccountScreen} />
-            </Switch>
-        );
-    }
-}
+    return (
+        <LocalizationProvider dateAdapter={DayJSUtils}>
+            <Router history={toJS(store.routing.history)}>
+                <div className={styles.page}>
+                    <Switch>
+                        <Route path="/" component={HomeScreen} exact />
+                        <Route
+                            path="/categories"
+                            component={CategoriesScreen}
+                        />
+                        <Route
+                            path="/transactions"
+                            component={TransactionsScreen}
+                        />
+                        <Route
+                            path="/statistics"
+                            component={StatisticsScreen}
+                        />
+                        <Route path="/account" component={AccountScreen} />
+                    </Switch>
+                </div>
+                <MenuView />
+            </Router>
+        </LocalizationProvider>
+    );
+});
+
+const App = () => {
+    return (
+        <RootStoreProvider>
+            <AppContent />
+        </RootStoreProvider>
+    );
+};
 
 export default App;
