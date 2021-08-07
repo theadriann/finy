@@ -2,11 +2,7 @@
 import styles from "./App.module.scss";
 
 // stores
-import {
-    RootStoreContext,
-    RootStoreProvider,
-    useRootStore,
-} from "@src/stores/RootStore";
+import { RootStoreProvider, useRootStore } from "@src/stores/RootStore";
 
 // styles
 import "./index.scss";
