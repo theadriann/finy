@@ -12,15 +12,15 @@ import "firebase/database";
 import { RootStore } from "./RootStore";
 import { makeAutoObservable, reaction } from "mobx";
 
-const CONFIG = {
-    apiKey: "AIzaSyCwpBWHIARRc9V_ei5rVaPXD_du4Ai_BlQ",
-    authDomain: "theadriann-financify.firebaseapp.com",
-    databaseURL: "https://theadriann-financify.firebaseio.com",
-    projectId: "theadriann-financify",
-    storageBucket: "theadriann-financify.appspot.com",
-    messagingSenderId: "762664579066",
-    appId: "1:762664579066:web:740f8236dc02f35183be43",
-    measurementId: "G-Q6ZW47TH09",
+const FIREBASE_CONFIG = {
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+    databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL,
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_FIREBASE_APP_ID,
+    measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
 export default class FireBaseStore {
@@ -52,7 +52,7 @@ export default class FireBaseStore {
         this.store = store;
         this.parent = parent;
 
-        firebase.initializeApp(CONFIG);
+        firebase.initializeApp(FIREBASE_CONFIG);
 
         this.auth = firebase.auth();
         this.db = firebase.database();
