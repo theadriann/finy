@@ -1,2 +1,16 @@
-node_modules
-build
+# dependencies
+/node_modules
+
+# production
+/build
+
+# misc
+.eslintcache
+.DS_Store
+.env
+.env.dev
+
+# pm
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
