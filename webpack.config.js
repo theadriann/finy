@@ -128,7 +128,7 @@ const config = {
         new webpack.ProvidePlugin({
             process: "process/browser",
         }),
-        new webpack.EnvironmentPlugin([...Object.keys(envValues.parsed)]),
+        new webpack.EnvironmentPlugin([...Object.keys(envValues.parsed || {})]),
     ],
 
     optimization: {
