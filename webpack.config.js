@@ -1,12 +1,13 @@
 const fs = require("fs");
 const path = require("path");
 const webpack = require("webpack");
+const CopyPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 
-const isDev = process.env.NODE_ENV !== "production";
+const isDev = process.env.NODE_ENV === "development";
 const envFilename = isDev ? ".env.dev" : ".env";
 const envValues =
     require("dotenv").config({ path: path.resolve(envFilename) }) || {};
@@ -122,7 +123,7 @@ const config = {
         new HtmlWebpackPlugin({
             title: "Finy",
             template: path.resolve(
-                path.join(__dirname, "public", "index.html")
+                path.join(__dirname, "src", "index.html")
             ),
         }),
         new webpack.ProvidePlugin({
@@ -156,10 +157,15 @@ const config = {
 
 if (!isDev) {
     config.plugins.push(
-        new MiniCssExtractPlugin({
-            filename: "finy.css",
-            chunkFilename: "finy.[contenthash].css",
-        })
+        ...[
+            new MiniCssExtractPlugin({
+                filename: "finy.css",
+                chunkFilename: "finy.[contenthash].css",
+            }),
+            new CopyPlugin({
+                patterns: [{ from: "public", to: "." }],
+            }),
+        ]
     );
 } else {
     config.plugins.push(new webpack.HotModuleReplacementPlugin());
