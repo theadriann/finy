@@ -20,8 +20,8 @@ import Category from "@src/models/Category";
 import Modal, { ModalProps } from "@src/components/Modal";
 import Switch from "@src/components/Switch";
 import { TextField } from "@material-ui/core";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import { DatePicker } from "@material-ui/pickers/DatePicker";
+import Autocomplete from "@material-ui/core/Autocomplete";
+// import { DatePicker } from "@material-ui/pickers/DatePicker";
 
 interface IAddTransactionModal extends ModalProps {
     onSubmit: Function;
@@ -99,8 +99,8 @@ export default class AddTransactionModal extends Modal<IAddTransactionModal> {
     //     this.data.categoryInput = categoryName;
     // };
 
-    // onOutFlowChange = (e: any) => {
-    //     this.data.outflow = e.target.checked;
+    // onOutFlowChange = (value: any) => {
+    //     this.data.outflow = value;
     // };
 
     // onSubmitClick = () => {
@@ -281,13 +281,13 @@ export default class AddTransactionModal extends Modal<IAddTransactionModal> {
 
         return (
             <div className={classnames(styles.control)}>
-                <DatePicker
+                {/* <DatePicker
                     label="Date"
                     value={value}
                     className={styles.textField}
                     onChange={onDateChange}
                     renderInput={(props: any) => <TextField {...props} />}
-                />
+                /> */}
             </div>
         );
     }

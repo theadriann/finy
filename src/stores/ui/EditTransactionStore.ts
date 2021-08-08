@@ -184,8 +184,8 @@ export default class EditTransactionStore {
         this.data.categoryInput = categoryName;
     };
 
-    onOutFlowChange = (e: any) => {
-        this.data.outflow = e.target.checked;
+    onOutFlowChange = (value: any) => {
+        this.data.outflow = value;
     };
 
     // -----------------------

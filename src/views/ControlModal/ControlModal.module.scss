@@ -39,6 +39,12 @@
     }
 }
 
+.sheetContainer {
+    position: relative;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
 .content {
     box-sizing: border-box;
     padding: 16px;
@@ -56,6 +62,12 @@
     .autocompleteField {
         width: 100%;
     }
+}
+
+.relativeSubmitButton {
+    height: 42px;
+    border-radius: unset;
+    width: 100%;
 }
 
 .submitButton {

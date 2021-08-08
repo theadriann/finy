@@ -7,6 +7,7 @@ import { observer } from "mobx-react";
 import { action, computed, makeObservable, observable } from "mobx";
 
 // styles
+import s from "@/components/BottomSheet/BottomSheet.module.scss";
 import styles from "@src/views/ControlModal/ControlModal.module.scss";
 
 // icons
@@ -17,18 +18,16 @@ import Payee from "@src/models/Payee";
 import Category from "@src/models/Category";
 
 // components
-import Modal, { ModalProps } from "@src/components/Modal";
 import Switch from "@src/components/Switch";
-import { TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/core/Autocomplete";
-// import { DatePicker } from "@material-ui/pickers/DatePicker";
-
-interface IAddTransactionModal extends ModalProps {
-    onSubmit: Function;
-}
+import { TextField } from "@material-ui/core";
+import DatePicker from "@material-ui/lab/DatePicker";
+import { TextInput } from "@/components/TextInput";
+import { ComboBox } from "@/components/ComboBox";
+import { InputField } from "@/components/InputField";
 
 @observer
-export default class AddTransactionModal extends Modal<IAddTransactionModal> {
+export default class AddTransactionView extends React.Component<any> {
     //
 
     data: {
@@ -57,6 +56,8 @@ export default class AddTransactionModal extends Modal<IAddTransactionModal> {
         const config: any = {
             data: observable,
             //
+            onNewPayee: action,
+            onNewCategory: action,
             onPayeeChange: action,
             onPayeeInputChange: action,
             onCategoryInputChange: action,
@@ -89,29 +90,38 @@ export default class AddTransactionModal extends Modal<IAddTransactionModal> {
     // event handling methods
     // -----------------------
 
-    onPayeeChange = (event: any, payee: Payee | string | null) => {
+    onNewPayee = (payeeName: string) => {
+        if (!payeeName) {
+            this.data.payeeInput = "";
+            this.data.payee = null;
+            return;
+        }
+
+        const payee = rootStore.data.createPayee({
+            name: payeeName,
+        });
+
+        this.data.payeeInput = payee.name;
+        this.data.payee = payee;
+    };
+
+    onPayeeChange = (event: any, payee?: Payee) => {
         if (!payee) {
             this.data.payeeInput = "";
             this.data.payee = null;
             return;
         }
 
-        if (typeof payee === "string") {
-            payee = rootStore.data.createPayee({
-                name: payee.replace("Add ", ""),
-            });
-        }
-
         this.data.payeeInput = payee.name;
         this.data.payee = payee;
     };
 
-    onPayeeInputChange = (event: any, name: string) => {
+    onPayeeInputChange = (name: string) => {
         this.data.payeeInput = name;
     };
 
-    onAmountChange = (event: any) => {
-        this.data.amount = Number(event.target.value);
+    onAmountChange = (value: any) => {
+        this.data.amount = Number(value);
     };
 
     onCurrencyChange = (event: any, currency: any) => {
@@ -122,24 +132,33 @@ export default class AddTransactionModal extends Modal<IAddTransactionModal> {
         this.data.date = newValue;
     };
 
-    onCategoryChange = (event: any, category: Category | null | string) => {
+    onCategoryChange = (event: any, category: Category | null) => {
         if (!category) {
             this.data.categoryInput = "";
             this.data.category = null;
             return;
         }
 
-        if (typeof category === "string") {
-            category = rootStore.data.createCategory({
-                label: category.replace("Add ", ""),
-            });
-        }
-
         this.data.categoryInput = category.label;
         this.data.category = category || null;
     };
 
-    onCategoryInputChange = (event: any, categoryName: any) => {
+    onNewCategory = (categoryName: any) => {
+        if (!categoryName) {
+            this.data.categoryInput = "";
+            this.data.category = null;
+            return;
+        }
+
+        const category = rootStore.data.createCategory({
+            label: categoryName,
+        });
+
+        this.data.categoryInput = category.label;
+        this.data.category = category;
+    };
+
+    onCategoryInputChange = (categoryName: any) => {
         this.data.categoryInput = categoryName;
     };
 
@@ -153,7 +172,7 @@ export default class AddTransactionModal extends Modal<IAddTransactionModal> {
         }
 
         const data = this.data;
-        const { onSubmit } = this.props;
+        const { onSubmit }: any = this.props;
 
         rootStore.data.addTransaction({
             date: dayjs(data.date).unix(),
@@ -178,6 +197,17 @@ export default class AddTransactionModal extends Modal<IAddTransactionModal> {
         this.trigger("onDismiss");
     };
 
+    trigger = (
+        eventName: "onOpen" | "onDismiss" | "innerOverlayRef" | "innerModalRef",
+        ...args: any[]
+    ) => {
+        const fn: any = this.props[eventName];
+
+        if (fn) {
+            fn(...args);
+        }
+    };
+
     get isValid() {
         if (
             !this.data.payee ||
@@ -197,38 +227,35 @@ export default class AddTransactionModal extends Modal<IAddTransactionModal> {
     // -----------------------
 
     render() {
-        if (!this.props.open) {
-            return null;
-        }
-
-        return this.renderModal({ modalClassName: styles.modal });
-    }
-
-    renderModalContent() {
         return (
-            <>
-                <div className={styles.topbar}>
-                    <h2>Add Transaction</h2>
+            <div className={styles.sheetContainer}>
+                <div className={s.titleContainer}>
                     {this.renderCloseButton()}
+                    <h2>Add Transaction</h2>
                 </div>
-                <div className={styles.content}>{this.renderControls()}</div>
+                <div className={styles.content} style={{ padding: 16 }}>
+                    {this.renderControls()}
+                </div>
                 <div
-                    className={classnames("f-button", styles.submitButton)}
+                    className={classnames(
+                        "f-button",
+                        styles.relativeSubmitButton
+                    )}
                     onClick={this.onSubmitClick}
                 >
                     Add
                 </div>
-            </>
+            </div>
         );
     }
 
     renderControls() {
         return (
             <>
-                {this.renderPayeeControl()}
-                {this.renderDateControl()}
                 {this.renderAmountControl()}
                 {this.renderCurrencyControl()}
+                {this.renderPayeeControl()}
+                {this.renderDateControl()}
                 {this.renderCategoryControl()}
                 {this.renderOutflowControl()}
             </>
@@ -236,44 +263,31 @@ export default class AddTransactionModal extends Modal<IAddTransactionModal> {
     }
 
     renderPayeeControl() {
+        const inputValue = this.data.payeeInput;
         const options: any = rootStore.data.payees.arr.slice();
-        const value: Payee | string | null = this.data.payee;
-
-        if (this.data.payeeInput.length) {
-            options.push(`Add ${this.data.payeeInput}`);
-        }
-
-        const getOptionLabel = (payee: Payee | string | null) => {
-            if (!payee) {
-                return "";
-            }
-
-            if (typeof payee === "string") {
-                return payee;
-            }
-
-            return payee.name;
-        };
+        const filteredOptions = options.filter((item: Payee) =>
+            item.name.toLowerCase().includes(inputValue.toLowerCase())
+        );
+        const canCreateNewItem =
+            inputValue &&
+            (filteredOptions.length !== 1 ||
+                filteredOptions[0].name.toLowerCase() !==
+                    inputValue.toLowerCase());
 
         return (
             <div className={classnames(styles.control)}>
-                <Autocomplete
-                    clearOnEscape={false}
-                    value={value}
-                    options={options}
+                <InputField label="Payee" />
+                <ComboBox
+                    items={filteredOptions}
+                    value={this.data.payee}
                     inputValue={this.data.payeeInput}
-                    onChange={this.onPayeeChange}
                     onInputChange={this.onPayeeInputChange}
-                    getOptionLabel={getOptionLabel}
-                    renderInput={(params) => (
-                        <TextField
-                            {...params}
-                            label="Payee"
-                            variant="standard"
-                            className={styles.textField}
-                        />
-                    )}
-                    className={styles.autocompleteField}
+                    onItemSelect={(item: any) => this.onPayeeChange(null, item)}
+                    itemLabelRenderer={(item: any) => item && item.name}
+                    canCreateNewItem={canCreateNewItem}
+                    onCreateNewItem={() =>
+                        this.onNewPayee(this.data.payeeInput)
+                    }
                 />
             </div>
         );
@@ -282,12 +296,11 @@ export default class AddTransactionModal extends Modal<IAddTransactionModal> {
     renderAmountControl() {
         return (
             <div className={classnames(styles.control)}>
-                <TextField
-                    label="Amount"
+                <InputField label="Amount" />
+                <TextInput
+                    pattern="[0-9]*"
+                    inputmode="decimal"
                     value={this.data.amount.toString()}
-                    variant="standard"
-                    type="number"
-                    className={styles.textField}
                     onChange={this.onAmountChange}
                 />
             </div>
@@ -297,20 +310,14 @@ export default class AddTransactionModal extends Modal<IAddTransactionModal> {
     renderCurrencyControl() {
         return (
             <div className={classnames(styles.control)}>
-                <Autocomplete
+                <InputField label="Currency" />
+                <ComboBox
+                    items={["USD", "RON", "EUR"]}
                     value={this.data.currency}
-                    onChange={this.onCurrencyChange}
-                    options={["USD", "RON", "EUR"]}
-                    getOptionLabel={(currency) => currency}
-                    renderInput={(params) => (
-                        <TextField
-                            {...params}
-                            label="Currency"
-                            variant="standard"
-                            className={styles.textField}
-                        />
-                    )}
-                    className={styles.autocompleteField}
+                    onItemSelect={(item: any) =>
+                        this.onCurrencyChange(null, item)
+                    }
+                    itemLabelRenderer={(item: any) => item}
                 />
             </div>
         );
@@ -319,24 +326,29 @@ export default class AddTransactionModal extends Modal<IAddTransactionModal> {
     renderDateControl() {
         return (
             <div className={classnames(styles.control)}>
-                {/* <DatePicker
+                <DatePicker
                     label="Date"
                     value={this.data.date}
                     className={styles.textField}
                     onChange={this.onDateChange}
                     renderInput={(props: any) => <TextField {...props} />}
-                /> */}
+                />
             </div>
         );
     }
 
     renderCategoryControl() {
         const value: Category | string | null = this.data.category;
-        const options: any = rootStore.data.categories.arr.slice();
-
-        if (this.data.categoryInput.length) {
-            options.push(`Add ${this.data.categoryInput}`);
-        }
+        const options = rootStore.data.categories.arr.slice();
+        const inputValue = this.data.categoryInput || "";
+        const filteredOptions = options.filter((item: Category) =>
+            item.label.toLowerCase().includes(inputValue.toLowerCase())
+        );
+        const canCreateNewItem =
+            inputValue &&
+            (filteredOptions.length !== 1 ||
+                filteredOptions[0].label.toLowerCase() !==
+                    inputValue.toLowerCase());
 
         const getOptionLabel = (category: Category | string | null) => {
             if (!category) {
@@ -352,22 +364,18 @@ export default class AddTransactionModal extends Modal<IAddTransactionModal> {
 
         return (
             <div className={classnames(styles.control)}>
-                <Autocomplete
+                <InputField label="Category" />
+                <ComboBox
+                    items={filteredOptions}
                     value={value}
-                    options={options}
-                    inputValue={this.data.categoryInput}
-                    onChange={this.onCategoryChange}
+                    inputValue={inputValue}
                     onInputChange={this.onCategoryInputChange}
-                    getOptionLabel={getOptionLabel}
-                    renderInput={(params) => (
-                        <TextField
-                            {...params}
-                            label="Category"
-                            variant="standard"
-                            className={styles.textField}
-                        />
-                    )}
-                    className={styles.autocompleteField}
+                    onItemSelect={(item: Category) =>
+                        this.onCategoryChange(null, item)
+                    }
+                    itemLabelRenderer={(item: Category) => item && item.label}
+                    canCreateNewItem={canCreateNewItem}
+                    onCreateNewItem={() => this.onNewCategory(inputValue)}
                 />
             </div>
         );
@@ -387,7 +395,10 @@ export default class AddTransactionModal extends Modal<IAddTransactionModal> {
 
     renderCloseButton() {
         return (
-            <div className={styles.closeButton} onClick={this.onCloseClick}>
+            <div
+                className={s.closeButton}
+                onClick={() => this.trigger("onDismiss")}
+            >
                 <CgClose />
             </div>
         );

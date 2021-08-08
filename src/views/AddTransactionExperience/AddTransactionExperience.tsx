@@ -1,7 +1,11 @@
 // components
 import AddButton from "@src/components/AddButton";
+import { BottomSheet } from "react-spring-bottom-sheet";
+
+import "react-spring-bottom-sheet/dist/style.css";
 
 // views
+import AddTransactionView from "./AddTransactionView";
 import AddTransactionModal from "./AddTransactionModal";
 
 // utils
@@ -26,11 +30,21 @@ const AddTransactionExperience: React.FC = () => {
         <Observer>
             {() => (
                 <div>
-                    <AddTransactionModal
+                    {/* <AddTransactionModal
                         open={localStore.open}
                         onDismiss={localStore.onModalDismiss}
                         onSubmit={localStore.onModalSubmit}
-                    />
+                    /> */}
+                    <BottomSheet
+                        open={localStore.open}
+                        onDismiss={localStore.onModalDismiss}
+                    >
+                        <AddTransactionView
+                            open={localStore.open}
+                            onDismiss={localStore.onModalDismiss}
+                            onSubmit={localStore.onModalSubmit}
+                        />
+                    </BottomSheet>
                     <AddButton onClick={localStore.onAddButtonClick} />
                 </div>
             )}

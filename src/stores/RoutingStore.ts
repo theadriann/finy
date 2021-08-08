@@ -1,9 +1,9 @@
 // utils
-import { createHashHistory } from "history";
+import { createHashHistory, createBrowserHistory } from "history";
 import { action, observable, makeObservable } from "mobx";
 import { RootStore } from "./RootStore";
 
-const history = createHashHistory();
+const history = createBrowserHistory();
 
 export default class RoutingStore {
     //

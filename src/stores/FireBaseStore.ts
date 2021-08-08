@@ -76,7 +76,9 @@ export default class FireBaseStore {
     setupAuth() {
         this.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
         this.auth.onAuthStateChanged((userData) => {
-            this.setUserData({ user: { ...userData } });
+            if (userData) {
+                this.setUserData({ user: { ...userData } });
+            }
         });
     }
 
@@ -179,7 +181,7 @@ export default class FireBaseStore {
     // -----------------------
 
     get isLoggedIn() {
-        return this.userData;
+        return this.userData && this.userData.uid;
     }
 
     // -----------------------

@@ -13,7 +13,7 @@ import { CgClose } from "react-icons/cg";
 // components
 import Modal, { ModalProps } from "@src/components/Modal";
 import { TextField } from "@material-ui/core";
-import Autocomplete from "@material-ui/lab/Autocomplete";
+import Autocomplete from '@material-ui/core/Autocomplete';
 
 interface IAddWalletModal extends ModalProps {}
 

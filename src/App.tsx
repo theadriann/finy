@@ -9,12 +9,12 @@ import "./index.scss";
 
 // utils
 import React from "react";
-import DayJSUtils from "@material-ui/pickers/adapter/dayjs";
 import { Router } from "react-router";
 import { Switch, Route } from "react-router-dom";
-import { LocalizationProvider } from "@material-ui/pickers";
 import { toJS } from "mobx";
 import { observer } from "mobx-react";
+import AdapterDayjs from "@material-ui/lab/AdapterDayjs";
+import LocalizationProvider from "@material-ui/lab/LocalizationProvider";
 
 // screens
 import HomeScreen from "@src/screens/HomeScreen";
@@ -49,7 +49,7 @@ const AppContent = observer(() => {
     }
 
     return (
-        <LocalizationProvider dateAdapter={DayJSUtils}>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
             <Router history={toJS(store.routing.history)}>
                 <div className={styles.page}>
                     <Switch>

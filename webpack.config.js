@@ -8,7 +8,8 @@ const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin"
 
 const isDev = process.env.NODE_ENV !== "production";
 const envFilename = isDev ? ".env.dev" : ".env";
-const envValues = require("dotenv").config({ path: path.resolve(envFilename) });
+const envValues =
+    require("dotenv").config({ path: path.resolve(envFilename) }) || {};
 
 const config = {
     mode: isDev ? "development" : "production",

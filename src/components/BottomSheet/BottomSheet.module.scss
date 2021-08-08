@@ -1,0 +1,7 @@
+.titleContainer {
+    @apply relative text-center text-xl;
+}
+
+.closeButton {
+    @apply absolute left-4 top-0 scale-125;
+}
